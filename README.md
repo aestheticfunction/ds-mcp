@@ -52,7 +52,7 @@ props, patterns, and anti-patterns.
 npm install -g @aestheticfunction/ds-mcp
 
 # 2. Download the shadcn/ui example dspack
-curl -L https://raw.githubusercontent.com/aestheticfunction/ds-mcp/main/examples/shadcn-ui.dspack.json \
+curl -L https://raw.githubusercontent.com/aestheticfunction/ds-mcp/v0.1.0/examples/shadcn-ui.dspack.json \
   -o shadcn-ui.dspack.json
 
 # 3. Run with the downloaded file
