@@ -1,4 +1,4 @@
-import { describe, it } from 'node:test';
+import { describe, it, afterEach } from 'node:test';
 import assert from 'node:assert/strict';
 import { writeFileSync, mkdtempSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
@@ -6,12 +6,22 @@ import { tmpdir } from 'node:os';
 import { loadDspack } from '../loader.js';
 import { fixture } from './fixture.js';
 
+const tempDirs: string[] = [];
+
 function withTempFile(content: string, ext = '.dspack.json'): string {
   const dir = mkdtempSync(join(tmpdir(), 'ds-mcp-test-'));
+  tempDirs.push(dir);
   const filePath = join(dir, `test${ext}`);
   writeFileSync(filePath, content, 'utf-8');
   return filePath;
 }
+
+afterEach(() => {
+  for (const dir of tempDirs) {
+    rmSync(dir, { recursive: true, force: true });
+  }
+  tempDirs.length = 0;
+});
 
 describe('loadDspack', () => {
   it('loads a valid dspack document', () => {

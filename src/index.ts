@@ -9,13 +9,15 @@ const debug = process.env.DSMCP_DEBUG === 'true' ? console.error.bind(console, '
 
 const argv = minimist(process.argv.slice(2));
 
-const dspackPath = argv.dspack || process.env.DSPACK_PATH;
+const rawDspack = argv.dspack || process.env.DSPACK_PATH;
 
-if (!dspackPath) {
+if (!rawDspack || typeof rawDspack !== 'string') {
   console.error('Error: No dspack file specified.');
   console.error('Provide a path via --dspack <path> or the DSPACK_PATH environment variable.');
   process.exit(1);
 }
+
+const dspackPath: string = rawDspack;
 
 debug('Loading dspack file:', dspackPath);
 
