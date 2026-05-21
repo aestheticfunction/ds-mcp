@@ -244,7 +244,7 @@
         }
       },
       "tokens": ["background", "foreground", "border", "ring", "radius-sm"],
-      "relatedComponents": [],
+      "relatedComponents": ["label", "textarea"],
       "tags": ["form", "input", "text"]
     },
     "badge": {
@@ -287,6 +287,157 @@
       "tokens": ["background", "foreground", "accent", "muted", "muted-foreground", "border", "radius"],
       "relatedComponents": ["button"],
       "tags": ["interactive", "menu", "overlay"]
+    },
+    "label": {
+      "name": "Label",
+      "description": "An accessible label element that associates text with a form control. Built on Radix UI Label. Renders a native <label> element with consistent styling.",
+      "whenToUse": "Use to label every form control (Input, Select, Textarea, Checkbox, Switch). Always associate labels with their control via the htmlFor prop.",
+      "whenNotToUse": "Do not use as a general-purpose text element. Use paragraph or heading elements for non-form text. Do not hide labels to save space; accessible forms require visible labels.",
+      "props": {
+        "htmlFor": {
+          "type": "string",
+          "description": "The ID of the form control this label is associated with."
+        }
+      },
+      "tokens": ["foreground"],
+      "relatedComponents": ["input", "select", "checkbox", "textarea", "switch"],
+      "tags": ["form", "accessibility", "label"]
+    },
+    "select": {
+      "name": "Select",
+      "description": "A form control for choosing one value from a predefined list of options. Built on Radix UI Select. Composed of sub-components: Select (root), SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLabel, SelectItem, and SelectSeparator.",
+      "whenToUse": "Use when the user must choose one option from a list of five or more predefined values. Appropriate for settings, filters, and form fields where the option set is known at render time.",
+      "whenNotToUse": "Do not use for fewer than five options where all fit on screen; use RadioGroup instead. Do not use for free-text entry with suggestions; use a Combobox or Input with autocomplete. Do not use for multi-selection.",
+      "props": {
+        "value": {
+          "type": "string",
+          "description": "Controlled selected value."
+        },
+        "onValueChange": {
+          "type": "function",
+          "description": "Callback fired when the selected value changes."
+        },
+        "defaultValue": {
+          "type": "string",
+          "description": "Uncontrolled default value."
+        },
+        "disabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the select is non-interactive."
+        },
+        "placeholder": {
+          "type": "string",
+          "description": "Text shown in the trigger when no value is selected."
+        }
+      },
+      "tokens": ["background", "foreground", "border", "ring", "radius-sm", "muted", "accent"],
+      "relatedComponents": ["label", "input"],
+      "tags": ["form", "input", "selection"]
+    },
+    "checkbox": {
+      "name": "Checkbox",
+      "description": "A boolean input control that can be checked or unchecked. Built on Radix UI Checkbox. Supports an indeterminate state for partial selections.",
+      "whenToUse": "Use for binary choices where the user opts in or out: agreeing to terms, enabling a feature, selecting items from a list. Use when multiple options can be selected independently.",
+      "whenNotToUse": "Do not use for mutually exclusive options; use RadioGroup instead. Do not use as an on/off toggle in settings where the change takes effect on save; use Switch for instant-effect toggles.",
+      "props": {
+        "checked": {
+          "type": "boolean",
+          "description": "Controlled checked state. Also accepts 'indeterminate' for partial selection."
+        },
+        "onCheckedChange": {
+          "type": "function",
+          "description": "Callback fired when the checked state changes."
+        },
+        "defaultChecked": {
+          "type": "boolean",
+          "default": false,
+          "description": "Uncontrolled default checked state."
+        },
+        "disabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the checkbox is non-interactive."
+        }
+      },
+      "tokens": ["primary", "primary-foreground", "border", "ring"],
+      "relatedComponents": ["label", "switch"],
+      "tags": ["form", "input", "boolean"]
+    },
+    "textarea": {
+      "name": "Textarea",
+      "description": "A multi-line text input field built on the native <textarea> element. Styled consistently with Input.",
+      "whenToUse": "Use for multi-line text entry: comments, descriptions, notes, feedback, or any field where the expected input is longer than a single line.",
+      "whenNotToUse": "Do not use for single-line input; use Input instead. Do not use for rich text editing; use a dedicated rich text editor.",
+      "props": {
+        "placeholder": {
+          "type": "string",
+          "description": "Placeholder text shown when the textarea is empty."
+        },
+        "rows": {
+          "type": "number",
+          "description": "Number of visible text lines. Controls initial height."
+        },
+        "disabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the textarea is non-interactive."
+        }
+      },
+      "tokens": ["background", "foreground", "border", "ring", "radius-sm"],
+      "relatedComponents": ["input", "label"],
+      "tags": ["form", "input", "text"]
+    },
+    "switch": {
+      "name": "Switch",
+      "description": "A toggle control for switching between on and off states. Built on Radix UI Switch. Provides immediate visual feedback of the current state.",
+      "whenToUse": "Use for settings that take effect immediately or on save: enabling notifications, dark mode, feature flags. Appropriate when the binary choice represents an on/off state rather than a yes/no selection.",
+      "whenNotToUse": "Do not use for form fields where the choice is between agreeing or not (e.g., terms of service); use Checkbox instead. Do not use for choosing between two named options; use RadioGroup or Select.",
+      "props": {
+        "checked": {
+          "type": "boolean",
+          "description": "Controlled checked state."
+        },
+        "onCheckedChange": {
+          "type": "function",
+          "description": "Callback fired when the checked state changes."
+        },
+        "defaultChecked": {
+          "type": "boolean",
+          "default": false,
+          "description": "Uncontrolled default checked state."
+        },
+        "disabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the switch is non-interactive."
+        }
+      },
+      "tokens": ["primary", "primary-foreground", "background", "border", "ring"],
+      "relatedComponents": ["label", "checkbox"],
+      "tags": ["form", "input", "toggle"]
+    },
+    "separator": {
+      "name": "Separator",
+      "description": "A visual divider between sections of content. Built on Radix UI Separator. Renders as an accessible horizontal or vertical line.",
+      "whenToUse": "Use to create visual separation between groups of content within a page, card, or menu. Appropriate for dividing form sections, menu groups, or sidebar sections.",
+      "whenNotToUse": "Do not use purely for decoration. If content does not need semantic separation, use spacing or a border instead. Do not use between every item in a list; use spacing.",
+      "props": {
+        "orientation": {
+          "type": "enum",
+          "values": ["horizontal", "vertical"],
+          "default": "horizontal",
+          "description": "The orientation of the separator."
+        },
+        "decorative": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true, the separator is purely visual and not announced by screen readers."
+        }
+      },
+      "tokens": ["border"],
+      "relatedComponents": ["card"],
+      "tags": ["layout", "divider"]
     }
   },
   "patterns": [
@@ -307,8 +458,8 @@
       "description": "Standard arrangement of form controls within a Card container, providing consistent structure for data entry interfaces.",
       "intent": "Give forms a consistent visual structure that groups related inputs, separates them from surrounding content, and provides clear hierarchy through Card sub-components.",
       "context": "Use for settings panels, profile editors, checkout flows, or any interface where the user enters structured data across multiple fields.",
-      "components": ["card", "input", "button"],
-      "guidance": "Wrap the form in a Card. Use CardHeader with CardTitle and CardDescription to introduce the form's purpose. Place inputs inside CardContent with consistent vertical spacing (space-y-4 or equivalent). Group related fields together. Place primary actions (submit, save) in CardFooter. Labels should be associated with inputs for accessibility. Required fields should be visually indicated.",
+      "components": ["card", "label", "input", "select", "checkbox", "textarea", "switch", "button"],
+      "guidance": "Wrap the form in a Card. Use CardHeader with CardTitle and CardDescription to introduce the form's purpose. Place inputs inside CardContent with consistent vertical spacing (space-y-4 or equivalent). Group related fields together. Place primary actions (submit, save) in CardFooter. Every form control must have a Label associated via the htmlFor attribute matching the input's id. Required fields should be visually indicated.",
       "relatedPatterns": ["destructive-action-confirmation"],
       "tags": ["form", "layout", "data-entry"]
     },
@@ -322,6 +473,17 @@
       "guidance": "Use a Button with the ghost variant and icon size as the DropdownMenuTrigger. A vertical ellipsis icon is the conventional trigger for contextual menus. Group related actions with DropdownMenuGroup and separate groups with DropdownMenuSeparator. Place destructive actions (delete, remove) at the end of the menu, visually distinguished. Include keyboard shortcuts in DropdownMenuItem when available.",
       "relatedPatterns": ["destructive-action-confirmation"],
       "tags": ["actions", "menu", "overflow"]
+    },
+    {
+      "id": "settings-form",
+      "name": "Settings Form",
+      "description": "A structured settings or preferences form using Card as a container, with sections separated by Separator, and appropriate control types for each setting.",
+      "intent": "Provide a consistent, accessible layout for application settings that uses the right control for each setting type and groups related options visually.",
+      "context": "Use for user profile settings, application preferences, notification settings, account configuration, or any form where the user adjusts persistent options across multiple categories.",
+      "components": ["card", "label", "input", "select", "checkbox", "textarea", "switch", "separator", "button"],
+      "guidance": "Wrap the entire form in a Card. Use CardHeader for the form title and a brief description of the settings scope. Place all controls inside CardContent. Use Label with htmlFor on every control for accessibility. Use Input for free-text values (name, email). Use Select for constrained single-choice options (language, timezone). Use Switch for binary on/off settings that take effect immediately or on save (enable notifications). Use Checkbox for opt-in options that are off by default (marketing emails, beta features). Use Textarea for multi-line free-text (bio, notes). Use Separator between logical groups of settings to create visual sections. Place the save/submit Button in CardFooter, aligned to the end.",
+      "relatedPatterns": ["form-field-layout"],
+      "tags": ["form", "settings", "preferences", "layout"]
     }
   ],
   "antiPatterns": [
@@ -396,6 +558,41 @@
           "importPath": "@/components/ui/dropdown-menu",
           "installCommand": "npx shadcn@latest add dropdown-menu",
           "guidance": "Exports multiple sub-components: DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuGroup, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuSubContent. Built on @radix-ui/react-dropdown-menu."
+        },
+        "label": {
+          "importPath": "@/components/ui/label",
+          "installCommand": "npx shadcn@latest add label",
+          "exportName": "Label",
+          "guidance": "Built on @radix-ui/react-label. Use the htmlFor prop to associate the label with its form control. Renders as a styled <label> element."
+        },
+        "select": {
+          "importPath": "@/components/ui/select",
+          "installCommand": "npx shadcn@latest add select",
+          "guidance": "Exports multiple sub-components: Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLabel, SelectItem, SelectSeparator. Built on @radix-ui/react-select. Use SelectTrigger with a SelectValue placeholder inside, and wrap SelectItems in SelectContent."
+        },
+        "checkbox": {
+          "importPath": "@/components/ui/checkbox",
+          "installCommand": "npx shadcn@latest add checkbox",
+          "exportName": "Checkbox",
+          "guidance": "Built on @radix-ui/react-checkbox. Renders as a styled checkbox with a check icon when checked. Pair with a Label for accessibility — place the Checkbox and Label side by side with items-center alignment."
+        },
+        "textarea": {
+          "importPath": "@/components/ui/textarea",
+          "installCommand": "npx shadcn@latest add textarea",
+          "exportName": "Textarea",
+          "guidance": "A styled native <textarea> element. Forwards all standard HTML textarea attributes via React.forwardRef. Styled consistently with Input."
+        },
+        "switch": {
+          "importPath": "@/components/ui/switch",
+          "installCommand": "npx shadcn@latest add switch",
+          "exportName": "Switch",
+          "guidance": "Built on @radix-ui/react-switch. Renders as a toggle switch. Pair with a Label for accessibility. Use for binary settings where the on/off state is visually clear."
+        },
+        "separator": {
+          "importPath": "@/components/ui/separator",
+          "installCommand": "npx shadcn@latest add separator",
+          "exportName": "Separator",
+          "guidance": "Built on @radix-ui/react-separator. Renders a horizontal rule by default. Set orientation='vertical' for vertical dividers. Use decorative={true} when the separator is purely visual and should be hidden from screen readers."
         }
       }
     }

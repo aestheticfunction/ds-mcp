@@ -1,43 +1,71 @@
 # ds-mcp
 
-ds-mcp is a [Model Context Protocol](https://modelcontextprotocol.io/) server that reads a
-[dspack](https://github.com/aestheticfunction/dspack) file and exposes a design system's
-contents — tokens, components, patterns, anti-patterns, and framework mappings — as MCP
-tools that AI coding agents can query at inference time.
+**Stop asking AI agents to guess your design system. Give them a contract they can query.**
 
 ---
 
-## Quick Start
+## The problem
+
+AI coding agents generate UI by guessing: they invent component names, fabricate props, hardcode color values, and ignore the patterns your team has documented. Every generated file needs manual correction to match your design system.
+
+## The solution
+
+ds-mcp is a read-only [MCP](https://modelcontextprotocol.io/) server that loads a [dspack](https://github.com/aestheticfunction/dspack) file — a portable JSON description of your design system — and exposes its contents as tools that agents can query before generating code. The agent asks questions; ds-mcp answers with your team's actual tokens, components, props, patterns, and anti-patterns.
+
+## What this is
+
+- A read-only MCP server. It retrieves design system information. It does not generate code, write files, or make network calls.
+- The reference implementation of the [dspack v0.1 specification](https://github.com/aestheticfunction/dspack).
+
+## What this is not
+
+- A code generator. Code generation is the agent's job.
+- A Figma sync tool. dspack files are authored and versioned by your team.
+- A runtime dependency. ds-mcp runs alongside your MCP client during development, not in production.
+
+## How it works
+
+1. **Create a dspack file** describing your design system's tokens, components, patterns, and anti-patterns. (Or use the included [shadcn/ui example](examples/shadcn-ui.dspack.json) to try it now.)
+2. **Start ds-mcp** with the dspack file. It loads the file once and holds it in memory.
+3. **Connect your MCP client** (Claude Desktop, Claude Code, Cursor, GitHub Copilot). The agent can now query your design system at coding time.
+
+## Quick start
 
 ```bash
 # Install
 npm install -g @aestheticfunction/ds-mcp
 
-# Run with a dspack file
-ds-mcp --dspack ./path/to/your-system.dspack.json
+# Run with the included shadcn/ui example
+ds-mcp --dspack ./examples/shadcn-ui.dspack.json
 ```
 
-Configure your MCP client (Claude Desktop, Claude Code, Cursor, GitHub Copilot) to connect to
-ds-mcp. See [docs/README.md](docs/README.md) for client-specific configuration examples.
+Configure your MCP client to connect to ds-mcp. See [docs/README.md](docs/README.md) for client-specific configuration examples.
 
-## What it does
+## What agents can ask
 
-ds-mcp loads a dspack file at startup and serves its contents through seven read-only MCP tools:
+| Agent question | Tool call | Returns |
+|---|---|---|
+| What components are available? | `list-components` | 13 components with names, descriptions, deprecation status |
+| How do I use the Button component? | `get-component { id: "button" }` | Props, usage guidance, tokens, related components |
+| What's the right layout for a settings form? | `get-pattern { id: "settings-form" }` | Components to use, guidance on control selection and layout |
+| What color token should I use for text? | `get-token { category: "color", name: "foreground" }` | Token value, description, type |
+| Which tokens relate to spacing? | `search-tokens { query: "spacing" }` | All tokens matching "spacing" across names, categories, descriptions |
+| What should I avoid doing? | `list-antipatterns` | Anti-patterns with reasoning and preferred alternatives |
+| How do I import Button in React? | `get-framework-mapping { framework: "react", componentId: "button" }` | Import path, install command, framework-specific guidance |
 
-- **get-token** — retrieve a single design token by category and name
-- **search-tokens** — find tokens matching a query string across names, categories, descriptions, and types
-- **get-component** — retrieve a component entry by ID, including props, usage guidance, and related components
-- **list-components** — enumerate all components with brief summaries
-- **get-pattern** — retrieve a documented usage pattern by ID
-- **list-antipatterns** — list anti-patterns the design system has identified, with reasoning
-- **get-framework-mapping** — retrieve framework-specific information, optionally merged with per-component bindings
+## Tools
 
-## What it does not do
+ds-mcp exposes seven read-only tools:
 
-- **Does not generate code.** It retrieves design system information. Code generation is the agent's job.
-- **Does not write files or mutate state.** Read-only by architectural invariant.
-- **Does not make outbound network calls.** The only I/O is reading the dspack file and serving MCP queries.
-- **Does not execute shell commands.**
+| Tool | Input | Description |
+|------|-------|-------------|
+| `get-token` | `{ category, name }` | Retrieve a single design token by category and name |
+| `search-tokens` | `{ query }` | Search tokens by name, category, description, or type |
+| `get-component` | `{ id }` | Retrieve a full component definition by ID |
+| `list-components` | none | List all components with ID, name, description, and deprecation status |
+| `get-pattern` | `{ id }` | Retrieve a documented usage pattern by ID |
+| `list-antipatterns` | none | List all anti-patterns with reasoning and preferred alternatives |
+| `get-framework-mapping` | `{ framework, componentId? }` | Retrieve framework-specific information, optionally merged with a component binding |
 
 ## Requirements
 
@@ -55,36 +83,22 @@ Set `DSMCP_DEBUG=true` for verbose stderr logging.
 
 ## Documentation
 
-See [docs/README.md](docs/README.md) for full installation, configuration, and MCP client
-setup instructions.
+- [Installation and MCP client setup](docs/README.md)
+- [Architecture](docs/architecture.md)
+- [Demo walkthrough: shadcn/ui settings form](docs/demo-shadcn.md)
 
 ## Development
 
 ```bash
-# Install dependencies
 npm install
-
-# Build
 npm run build
-
-# Run tests
 npm test
-
-# Smoke test against shadcn-ui example
 bash scripts/smoke.sh
 ```
 
 ## Security
 
-ds-mcp is architecturally read-only. It does not write files, execute commands, or make network
-calls. Any behavior that violates these constraints is a defect. See [SECURITY.md](SECURITY.md)
-for reporting instructions.
-
-## Relationship to dspack
-
-[dspack](https://github.com/aestheticfunction/dspack) is the specification. ds-mcp is the
-reference implementation that reads dspack files and serves them over MCP. The spec is the
-authority; this server follows it.
+ds-mcp is architecturally read-only. It does not write files, execute commands, or make network calls. Any behavior that violates these constraints is a defect. See [SECURITY.md](SECURITY.md) for reporting instructions.
 
 ## License
 

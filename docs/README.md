@@ -141,3 +141,5 @@ Any behavior that violates these constraints is a defect. See [SECURITY.md](../S
 - [dspack specification](https://github.com/aestheticfunction/dspack) — the format ds-mcp reads
 - [ds-mcp repository](https://github.com/aestheticfunction/ds-mcp) — this project
 - [Model Context Protocol](https://modelcontextprotocol.io/) — the protocol ds-mcp implements
+- [Architecture](architecture.md) — how dspack, ds-mcp, and agents fit together
+- [Demo walkthrough](demo-shadcn.md) — settings form demo using the shadcn/ui example
