@@ -36,9 +36,8 @@ props, patterns, and anti-patterns.
 ## How it works
 
 1. **Create a dspack file** describing your design system's tokens,
-   components, patterns, and anti-patterns. (Download the
-   [shadcn/ui example](examples/shadcn-ui.dspack.json) from GitHub to
-   try it now.)
+   components, patterns, and anti-patterns. (Use the included
+   [shadcn/ui example](examples/shadcn-ui.dspack.json) to try it now.)
 2. **Start ds-mcp** with the dspack file. It loads the file once and
    holds it in memory.
 3. **Connect your MCP client** (Claude Desktop, Claude Code, Cursor,
