@@ -10,7 +10,12 @@
   },
   "files": [
     "dist/",
-    "src/schema/"
+    "src/schema/",
+    "examples/",
+    "docs/",
+    "README.md",
+    "LICENSE",
+    "SECURITY.md"
   ],
   "engines": {
     "node": ">=20.0.0"

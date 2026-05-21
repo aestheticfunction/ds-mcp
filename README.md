@@ -6,40 +6,61 @@
 
 ## The problem
 
-AI coding agents generate UI by guessing: they invent component names, fabricate props, hardcode color values, and ignore the patterns your team has documented. Every generated file needs manual correction to match your design system.
+AI coding agents generate UI by guessing: they invent component names,
+fabricate props, hardcode color values, and ignore the patterns your team
+has documented. Every generated file needs manual correction to match your
+design system.
 
 ## The solution
 
-ds-mcp is a read-only [MCP](https://modelcontextprotocol.io/) server that loads a [dspack](https://github.com/aestheticfunction/dspack) file — a portable JSON description of your design system — and exposes its contents as tools that agents can query before generating code. The agent asks questions; ds-mcp answers with your team's actual tokens, components, props, patterns, and anti-patterns.
+ds-mcp is a read-only [MCP](https://modelcontextprotocol.io/) server that
+loads a [dspack](https://github.com/aestheticfunction/dspack) file — a
+portable JSON description of your design system — and exposes its contents
+as tools that agents can query before generating code. The agent asks
+questions; ds-mcp answers with your team's actual tokens, components,
+props, patterns, and anti-patterns.
 
 ## What this is
 
-- A read-only MCP server. It retrieves design system information. It does not generate code, write files, or make network calls.
+- A read-only MCP server. It retrieves design system information. It does
+  not generate code, write files, or make network calls.
 - The reference implementation of the [dspack v0.1 specification](https://github.com/aestheticfunction/dspack).
 
 ## What this is not
 
 - A code generator. Code generation is the agent's job.
 - A Figma sync tool. dspack files are authored and versioned by your team.
-- A runtime dependency. ds-mcp runs alongside your MCP client during development, not in production.
+- A runtime dependency. ds-mcp runs alongside your MCP client during
+  development, not in production.
 
 ## How it works
 
-1. **Create a dspack file** describing your design system's tokens, components, patterns, and anti-patterns. (Or use the included [shadcn/ui example](examples/shadcn-ui.dspack.json) to try it now.)
-2. **Start ds-mcp** with the dspack file. It loads the file once and holds it in memory.
-3. **Connect your MCP client** (Claude Desktop, Claude Code, Cursor, GitHub Copilot). The agent can now query your design system at coding time.
+1. **Create a dspack file** describing your design system's tokens,
+   components, patterns, and anti-patterns. (Download the
+   [shadcn/ui example](examples/shadcn-ui.dspack.json) from GitHub to
+   try it now.)
+2. **Start ds-mcp** with the dspack file. It loads the file once and
+   holds it in memory.
+3. **Connect your MCP client** (Claude Desktop, Claude Code, Cursor,
+   GitHub Copilot). The agent can now query your design system at
+   coding time.
 
 ## Quick start
 
 ```bash
-# Install
+# 1. Install
 npm install -g @aestheticfunction/ds-mcp
 
-# Run with the included shadcn/ui example
-ds-mcp --dspack ./examples/shadcn-ui.dspack.json
+# 2. Download the shadcn/ui example dspack
+curl -L https://raw.githubusercontent.com/aestheticfunction/ds-mcp/main/examples/shadcn-ui.dspack.json \
+  -o shadcn-ui.dspack.json
+
+# 3. Run with the downloaded file
+ds-mcp --dspack ./shadcn-ui.dspack.json
 ```
 
-Configure your MCP client to connect to ds-mcp. See [docs/README.md](docs/README.md) for client-specific configuration examples.
+Configure your MCP client to connect to ds-mcp. See
+[docs/README.md](docs/README.md) for client-specific configuration examples.
 
 ## What agents can ask
 
@@ -98,7 +119,10 @@ bash scripts/smoke.sh
 
 ## Security
 
-ds-mcp is architecturally read-only. It does not write files, execute commands, or make network calls. Any behavior that violates these constraints is a defect. See [SECURITY.md](SECURITY.md) for reporting instructions.
+ds-mcp is architecturally read-only. It does not write files, execute
+commands, or make network calls. Any behavior that violates these
+constraints is a defect. See [SECURITY.md](SECURITY.md) for reporting
+instructions.
 
 ## License
 
