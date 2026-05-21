@@ -1,0 +1,33 @@
+{
+  "name": "@aestheticfunction/ds-mcp",
+  "version": "0.0.0",
+  "description": "MCP server for exposing dspack design system corpora to AI coding agents",
+  "license": "Apache-2.0",
+  "type": "module",
+  "author": {
+    "name": "Ryan Dombrowski"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "design-system",
+    "dspack",
+    "ai",
+    "ai-agents"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aestheticfunction/ds-mcp.git"
+  },
+  "homepage": "https://github.com/aestheticfunction/ds-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/aestheticfunction/ds-mcp/issues"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "lint": "eslint src/",
+    "test": "node --test"
+  }
+}
