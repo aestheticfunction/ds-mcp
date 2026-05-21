@@ -2,7 +2,8 @@
 
 ## Prerequisites
 
-- **Node.js 20.0.0 or later.** ds-mcp uses the Node.js built-in test runner and mature ESM support, both stable in Node 20+.
+- **Node.js 20.0.0 or later.** ds-mcp uses the Node.js built-in test
+  runner and mature ESM support, both stable in Node 20+.
 
 ## Installation
 
@@ -20,7 +21,8 @@ npm install @aestheticfunction/ds-mcp
 
 ## Configuration
 
-ds-mcp requires a path to a dspack file. It accepts the path through two mechanisms, checked in order:
+ds-mcp requires a path to a dspack file. It accepts the path through two
+mechanisms, checked in order:
 
 1. **`--dspack` CLI flag** (first priority):
    ```bash
@@ -94,7 +96,8 @@ Add to your project's `.mcp.json`:
 
 ### Cursor
 
-Cursor supports MCP servers through its settings. The server command and args are:
+Cursor supports MCP servers through its settings. The server command and
+args are:
 
 - **Command:** `ds-mcp`
 - **Args:** `["--dspack", "/absolute/path/to/your-system.dspack.json"]`
@@ -103,7 +106,8 @@ See [Cursor's MCP documentation](https://docs.cursor.com/context/model-context-p
 
 ### GitHub Copilot
 
-GitHub Copilot supports MCP servers in agent mode. The server command and args are:
+GitHub Copilot supports MCP servers in agent mode. The server command and
+args are:
 
 - **Command:** `ds-mcp`
 - **Args:** `["--dspack", "/absolute/path/to/your-system.dspack.json"]`
@@ -128,13 +132,17 @@ ds-mcp exposes seven read-only tools:
 
 ds-mcp is architecturally read-only:
 
-- **No file writes.** It reads the dspack file once at startup and holds it in memory.
-- **No outbound network calls.** The only I/O is reading the dspack file and serving MCP queries over stdio.
-- **No shell command execution.** It is a file reader and an MCP server, nothing else.
+- **No file writes.** It reads the dspack file once at startup and holds
+  it in memory.
+- **No outbound network calls.** The only I/O is reading the dspack file
+  and serving MCP queries over stdio.
+- **No shell command execution.** It is a file reader and an MCP server,
+  nothing else.
 - **stdio transport only.** No network-exposed surface.
 - **No authentication.** Out of scope for v0.
 
-Any behavior that violates these constraints is a defect. See [SECURITY.md](../SECURITY.md) for reporting instructions.
+Any behavior that violates these constraints is a defect. See
+[SECURITY.md](../SECURITY.md) for reporting instructions.
 
 ## Links
 

@@ -10,7 +10,12 @@
   },
   "files": [
     "dist/",
-    "src/schema/"
+    "src/schema/",
+    "examples/",
+    "docs/",
+    "README.md",
+    "LICENSE",
+    "SECURITY.md"
   ],
   "engines": {
     "node": ">=20.0.0"
@@ -21,10 +26,19 @@
   "keywords": [
     "mcp",
     "model-context-protocol",
+    "mcp-server",
     "design-system",
-    "dspack",
-    "ai",
-    "ai-agents"
+    "design-systems",
+    "design-tokens",
+    "ai-agents",
+    "coding-agents",
+    "llm",
+    "llm-tools",
+    "developer-tools",
+    "frontend",
+    "ui-components",
+    "component-library",
+    "dspack"
   ],
   "repository": {
     "type": "git",
