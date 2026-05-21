@@ -2,7 +2,7 @@
 
 ds-mcp is the reference implementation of [dspack](https://github.com/aestheticfunction/dspack), an open specification for representing design system corpora in a format AI coding agents can query. Contributions to ds-mcp — bug reports, feature proposals, documentation improvements, and code — are welcome.
 
-This repository is currently pre-alpha. There is no runtime yet. Contributions at this stage are most useful in the form of questions, use cases, and early feedback on the planned design.
+This repository is at v0. The server implementation is complete and tested. Contributions at this stage are welcome in the form of bug reports, feature requests, documentation improvements, and code.
 
 ---
 
@@ -40,7 +40,7 @@ Remember: if the request involves a change to the dspack format or schema, it be
 
 ### Code contributions
 
-The implementation has not been written yet. When the implementation work begins, contribution guidelines for code — pull request process, testing requirements, style — will be added here. Until then, code contributions are premature.
+Pull requests are welcome. Please include tests for new behavior, follow the existing code conventions (ESM, TypeScript strict mode, pure-function tool architecture), and ensure `npm test` passes before submitting.
 
 ### Documentation
 
