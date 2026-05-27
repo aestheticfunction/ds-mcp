@@ -2,7 +2,7 @@ import type { DspackDocument, LifecycleStatus } from '../types.js';
 import { statusMatchesExact } from './status-helpers.js';
 
 export interface ListComponentsInput {
-  status?: string;
+  status?: 'draft' | 'experimental' | 'stable' | 'deprecated';
 }
 
 export interface ComponentSummary {
@@ -30,8 +30,9 @@ export function listComponents(doc: DspackDocument, input?: ListComponentsInput)
     return summary;
   });
 
-  if (input?.status) {
-    return entries.filter((c) => statusMatchesExact(c.status, input.status!));
+  const statusFilter = input?.status;
+  if (statusFilter) {
+    return entries.filter((c) => statusMatchesExact(c.status, statusFilter));
   }
 
   return entries;
