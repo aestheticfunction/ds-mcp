@@ -37,7 +37,9 @@ props, patterns, and anti-patterns.
 
 1. **Create a dspack file** describing your design system's tokens,
    components, patterns, and anti-patterns. (Use the included
-   [shadcn/ui example](examples/shadcn-ui.dspack.json) to try it now.)
+   [shadcn/ui v0.2 example](examples/shadcn-ui-v02.dspack.json) to try
+   it now, or the [v0.1 example](examples/shadcn-ui.dspack.json) for
+   the minimal format.)
 2. **Start ds-mcp** with the dspack file. It loads the file once and
    holds it in memory.
 3. **Connect your MCP client** (Claude Desktop, Claude Code, Cursor,
@@ -50,8 +52,8 @@ props, patterns, and anti-patterns.
 # 1. Install
 npm install -g @aestheticfunction/ds-mcp
 
-# 2. Download the shadcn/ui example dspack
-curl -L https://raw.githubusercontent.com/aestheticfunction/ds-mcp/v0.1.0/examples/shadcn-ui.dspack.json \
+# 2. Download the shadcn/ui v0.2 example dspack
+curl -L https://raw.githubusercontent.com/aestheticfunction/ds-mcp/main/examples/shadcn-ui-v02.dspack.json \
   -o shadcn-ui.dspack.json
 
 # 3. Run with the downloaded file
