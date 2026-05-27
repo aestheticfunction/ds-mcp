@@ -2,6 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { getToken } from '../tools/get-token.js';
 import { fixture } from './fixture.js';
+import { fixtureV02 } from './fixture-v02.js';
 
 describe('get-token', () => {
   it('returns a token entry for a valid category and name', () => {
@@ -43,5 +44,39 @@ describe('get-token', () => {
     assert.equal(result.found, false);
     assert.ok('error' in result);
     assert.ok(result.error.includes("dspack 'test-design-system'"));
+  });
+
+  it('returns tier when present (v0.2)', () => {
+    const result = getToken(fixtureV02, { category: 'color', name: 'primary' });
+    assert.equal(result.found, true);
+    if (!result.found) return;
+    const token = result.result as Record<string, unknown>;
+    assert.equal(token.tier, 'semantic');
+  });
+
+  it('returns status when present (v0.2)', () => {
+    const result = getToken(fixtureV02, { category: 'color', name: 'primary' });
+    assert.equal(result.found, true);
+    if (!result.found) return;
+    const token = result.result as Record<string, unknown>;
+    assert.equal(token.status, 'stable');
+  });
+
+  it('returns aliasOf string when present (v0.2)', () => {
+    const result = getToken(fixtureV02, { category: 'color', name: 'surface-bg' });
+    assert.equal(result.found, true);
+    if (!result.found) return;
+    const token = result.result as Record<string, unknown>;
+    assert.equal(token.aliasOf, 'background');
+  });
+
+  it('returns aliasOf structured reference when present (v0.2)', () => {
+    const result = getToken(fixtureV02, { category: 'spacing', name: 'component-padding' });
+    assert.equal(result.found, true);
+    if (!result.found) return;
+    const token = result.result as Record<string, unknown>;
+    const aliasOf = token.aliasOf as { category: string; token: string };
+    assert.equal(aliasOf.category, 'spacing');
+    assert.equal(aliasOf.token, 'sp-2');
   });
 });

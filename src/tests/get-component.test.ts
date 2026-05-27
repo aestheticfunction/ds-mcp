@@ -2,6 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { getComponent } from '../tools/get-component.js';
 import { fixture } from './fixture.js';
+import { fixtureV02 } from './fixture-v02.js';
 
 describe('get-component', () => {
   it('returns a component entry for a valid ID', () => {
@@ -39,5 +40,52 @@ describe('get-component', () => {
     assert.equal(result.found, false);
     assert.ok('error' in result);
     assert.ok(result.error.includes("dspack 'test-design-system'"));
+  });
+
+  it('returns status when present (v0.2)', () => {
+    const result = getComponent(fixtureV02, { id: 'button' });
+    assert.equal(result.found, true);
+    if (!result.found) return;
+    assert.equal(result.result.status, 'stable');
+  });
+
+  it('returns accessibility when present (v0.2)', () => {
+    const result = getComponent(fixtureV02, { id: 'button' });
+    assert.equal(result.found, true);
+    if (!result.found) return;
+    assert.ok(result.result.accessibility);
+    assert.equal(result.result.accessibility!.role, 'button');
+    assert.equal(result.result.accessibility!.labelRequirement, 'required-visible');
+    assert.ok(result.result.accessibility!.keyboardInteractions);
+    assert.ok(result.result.accessibility!.keyboardInteractions!.length >= 2);
+  });
+
+  it('returns composition when present (v0.2)', () => {
+    const result = getComponent(fixtureV02, { id: 'alert-dialog' });
+    assert.equal(result.found, true);
+    if (!result.found) return;
+    assert.ok(result.result.composition);
+    assert.ok(result.result.composition!.subComponents);
+    assert.ok(result.result.composition!.subComponents!.length >= 2);
+    assert.ok(result.result.composition!.requiredChildren);
+  });
+
+  it('returns constraints when present (v0.2)', () => {
+    const result = getComponent(fixtureV02, { id: 'button' });
+    assert.equal(result.found, true);
+    if (!result.found) return;
+    assert.ok(result.result.constraints);
+    assert.ok(result.result.constraints!.length >= 2);
+    assert.equal(result.result.constraints![0].severity, 'should');
+    assert.ok(result.result.constraints![0].context);
+    assert.ok(result.result.constraints![0].rule);
+  });
+
+  it('returns per-platform status object (v0.2)', () => {
+    const result = getComponent(fixtureV02, { id: 'alert-dialog' });
+    assert.equal(result.found, true);
+    if (!result.found) return;
+    const status = result.result.status;
+    assert.ok(typeof status === 'object' && status !== null);
   });
 });

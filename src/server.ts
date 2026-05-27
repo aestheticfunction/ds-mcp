@@ -8,6 +8,8 @@ import { listComponents } from './tools/list-components.js';
 import { getPattern } from './tools/get-pattern.js';
 import { listAntipatterns } from './tools/list-antipatterns.js';
 import { getFrameworkMapping } from './tools/get-framework-mapping.js';
+import { getTheme } from './tools/get-theme.js';
+import { getLayout } from './tools/get-layout.js';
 
 const debug = process.env.DSMCP_DEBUG === 'true' ? console.error.bind(console, '[ds-mcp]') : () => {};
 
@@ -21,14 +23,14 @@ function toolResult(outcome: { found: true; result: unknown } | { found: false; 
 
 export function createServer(doc: DspackDocument): McpServer {
   const server = new McpServer(
-    { name: 'ds-mcp', version: '0.1.0' },
+    { name: 'ds-mcp', version: '0.2.0' },
     { capabilities: { tools: {} } },
   );
 
   server.registerTool(
     'get-token',
     {
-      description: 'Retrieve a single design token by category and name. Returns the full token entry including value, description, type, deprecated status, and aliases.',
+      description: 'Retrieve a single design token by category and name. Returns the full token entry including value, description, type, deprecated status, aliases, and v0.2 fields (status, tier, aliasOf) when present.',
       inputSchema: {
         category: z.string().describe('Token category name (e.g., "color", "spacing")'),
         name: z.string().describe('Token name within the category'),
@@ -43,7 +45,7 @@ export function createServer(doc: DspackDocument): McpServer {
   server.registerTool(
     'search-tokens',
     {
-      description: 'Search for design tokens by query string. Performs case-insensitive substring matching against token names, category names, descriptions, and types. Returns matching entries with their category and name.',
+      description: 'Search for design tokens by query string. Performs case-insensitive substring matching against token names, category names, descriptions, types, tier, status, and aliasOf. Returns matching entries with their category and name.',
       inputSchema: {
         query: z.string().describe('Search query (case-insensitive substring match)'),
       },
@@ -57,7 +59,7 @@ export function createServer(doc: DspackDocument): McpServer {
   server.registerTool(
     'get-component',
     {
-      description: 'Retrieve a component definition by ID. Returns the full entry including name, description, usage guidance, props, tokens, related components, tags, and deprecation status.',
+      description: 'Retrieve a component definition by ID. Returns the full entry including name, description, usage guidance, props, tokens, related components, tags, deprecation status, and v0.2 fields (status, accessibility, composition, constraints) when present.',
       inputSchema: {
         id: z.string().describe('Component ID (e.g., "button", "alert-dialog")'),
       },
@@ -71,11 +73,14 @@ export function createServer(doc: DspackDocument): McpServer {
   server.registerTool(
     'list-components',
     {
-      description: 'List all components in the design system. Returns an array of component summaries with id, name, description, and deprecated status.',
+      description: 'List all components in the design system. Returns an array of component summaries with id, name, description, deprecated status, and lifecycle status when present. Optionally filter by lifecycle status.',
+      inputSchema: {
+        status: z.enum(['draft', 'experimental', 'stable', 'deprecated']).optional().describe('Optional lifecycle status filter (exact match; for per-platform status, matches if any platform has this status)'),
+      },
     },
-    () => {
-      debug('list-components');
-      return textResult(listComponents(doc));
+    (args) => {
+      debug('list-components', args);
+      return textResult(listComponents(doc, args));
     },
   );
 
@@ -96,18 +101,21 @@ export function createServer(doc: DspackDocument): McpServer {
   server.registerTool(
     'list-antipatterns',
     {
-      description: 'List all anti-patterns the design system has identified. Returns the full array of entries including id, name, description, reason, preferred alternative, involved components, and tags.',
+      description: 'List all anti-patterns the design system has identified. Returns the full array of entries including id, name, description, reason, severity, preferred alternative, involved components, and tags. Optionally filter by severity.',
+      inputSchema: {
+        severity: z.enum(['must-not', 'should-not', 'discouraged']).optional().describe('Optional severity filter (exact match)'),
+      },
     },
-    () => {
-      debug('list-antipatterns');
-      return textResult(listAntipatterns(doc));
+    (args) => {
+      debug('list-antipatterns', args);
+      return textResult(listAntipatterns(doc, args));
     },
   );
 
   server.registerTool(
     'get-framework-mapping',
     {
-      description: 'Retrieve framework-specific information. Without componentId, returns the top-level framework binding (name, package, install command, description, guidance). With componentId, merges the framework binding with the component-specific binding.',
+      description: 'Retrieve framework-specific information. Without componentId, returns the top-level framework binding (name, package, install command, description, guidance). With componentId, merges the framework binding with the component-specific binding, including sub-component export mappings when present.',
       inputSchema: {
         framework: z.string().describe('Framework identifier (e.g., "react", "vue")'),
         componentId: z.string().optional().describe('Optional component ID to get component-specific framework details'),
@@ -116,6 +124,31 @@ export function createServer(doc: DspackDocument): McpServer {
     (args) => {
       debug('get-framework-mapping', args);
       return toolResult(getFrameworkMapping(doc, args));
+    },
+  );
+
+  server.registerTool(
+    'get-theme',
+    {
+      description: 'Retrieve a theme definition by ID. Returns the theme entry including name, description, and token overrides. Overrides use dot-path keys like "color.background" mapping to replacement values.',
+      inputSchema: {
+        id: z.string().describe('Theme ID (e.g., "dark", "high-contrast")'),
+      },
+    },
+    (args) => {
+      debug('get-theme', args);
+      return toolResult(getTheme(doc, args));
+    },
+  );
+
+  server.registerTool(
+    'get-layout',
+    {
+      description: 'Retrieve the layout primitives section. Returns breakpoints, grid configuration, container definitions, and spacing scale when defined.',
+    },
+    () => {
+      debug('get-layout');
+      return toolResult(getLayout(doc));
     },
   );
 

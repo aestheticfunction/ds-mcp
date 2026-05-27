@@ -76,12 +76,12 @@ TOOLS_RESPONSE=$(sed -n '2p' "$OUTFILE")
 if echo "$TOOLS_RESPONSE" | node -e "
   const r = JSON.parse(require('fs').readFileSync('/dev/stdin','utf8'));
   const tools = r.result?.tools;
-  if (!Array.isArray(tools) || tools.length !== 7) process.exit(1);
+  if (!Array.isArray(tools) || tools.length !== 9) process.exit(1);
   const names = tools.map(t => t.name).sort();
-  const expected = ['get-component','get-framework-mapping','get-pattern','get-token','list-antipatterns','list-components','search-tokens'];
+  const expected = ['get-component','get-framework-mapping','get-layout','get-pattern','get-theme','get-token','list-antipatterns','list-components','search-tokens'];
   if (JSON.stringify(names) !== JSON.stringify(expected)) process.exit(1);
 " 2>/dev/null; then
-  echo "  OK: tools/list response valid (7 tools)"
+  echo "  OK: tools/list response valid (9 tools)"
 else
   echo "FAIL: Invalid tools/list response"
   echo "  $TOOLS_RESPONSE"

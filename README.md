@@ -24,7 +24,7 @@ props, patterns, and anti-patterns.
 
 - A read-only MCP server. It retrieves design system information. It does
   not generate code, write files, or make network calls.
-- The reference implementation of the [dspack v0.1 specification](https://github.com/aestheticfunction/dspack).
+- The reference implementation of the [dspack specification](https://github.com/aestheticfunction/dspack) (supports v0.1 and v0.2).
 
 ## What this is not
 
@@ -65,32 +65,38 @@ Configure your MCP client to connect to ds-mcp. See
 
 | Agent question | Tool call | Returns |
 |---|---|---|
-| What components are available? | `list-components` | 13 components with names, descriptions, deprecation status |
-| How do I use the Button component? | `get-component { id: "button" }` | Props, usage guidance, tokens, related components |
+| What components are available? | `list-components` | Components with names, descriptions, deprecation and lifecycle status |
+| Which components are stable? | `list-components { status: "stable" }` | Only components with stable lifecycle status |
+| How do I use the Button component? | `get-component { id: "button" }` | Props, usage guidance, tokens, accessibility, composition, constraints |
 | What's the right layout for a settings form? | `get-pattern { id: "settings-form" }` | Components to use, guidance on control selection and layout |
-| What color token should I use for text? | `get-token { category: "color", name: "foreground" }` | Token value, description, type |
-| Which tokens relate to spacing? | `search-tokens { query: "spacing" }` | All tokens matching "spacing" across names, categories, descriptions |
-| What should I avoid doing? | `list-antipatterns` | Anti-patterns with reasoning and preferred alternatives |
-| How do I import Button in React? | `get-framework-mapping { framework: "react", componentId: "button" }` | Import path, install command, framework-specific guidance |
+| What color token should I use for text? | `get-token { category: "color", name: "foreground" }` | Token value, description, type, tier, status, aliasOf |
+| Which tokens relate to spacing? | `search-tokens { query: "spacing" }` | All tokens matching "spacing" across names, categories, descriptions, tier |
+| What should I avoid doing? | `list-antipatterns` | Anti-patterns with reasoning, severity, and preferred alternatives |
+| What are the must-not rules? | `list-antipatterns { severity: "must-not" }` | Only anti-patterns with must-not severity |
+| How do I import Button in React? | `get-framework-mapping { framework: "react", componentId: "button" }` | Import path, install command, sub-component exports, guidance |
+| What overrides does the dark theme apply? | `get-theme { id: "dark" }` | Theme description and token override map |
+| What breakpoints should I use? | `get-layout` | Breakpoints, grid config, container sizes, spacing scale |
 
 ## Tools
 
-ds-mcp exposes seven read-only tools:
+ds-mcp exposes nine read-only tools:
 
 | Tool | Input | Description |
 |------|-------|-------------|
 | `get-token` | `{ category, name }` | Retrieve a single design token by category and name |
-| `search-tokens` | `{ query }` | Search tokens by name, category, description, or type |
-| `get-component` | `{ id }` | Retrieve a full component definition by ID |
-| `list-components` | none | List all components with ID, name, description, and deprecation status |
+| `search-tokens` | `{ query }` | Search tokens by name, category, description, type, tier, status, or aliasOf |
+| `get-component` | `{ id }` | Retrieve a full component definition including accessibility, composition, and constraints |
+| `list-components` | `{ status? }` | List all components; optionally filter by lifecycle status |
 | `get-pattern` | `{ id }` | Retrieve a documented usage pattern by ID |
-| `list-antipatterns` | none | List all anti-patterns with reasoning and preferred alternatives |
-| `get-framework-mapping` | `{ framework, componentId? }` | Retrieve framework-specific information, optionally merged with a component binding |
+| `list-antipatterns` | `{ severity? }` | List all anti-patterns; optionally filter by severity |
+| `get-framework-mapping` | `{ framework, componentId? }` | Retrieve framework-specific information including sub-component export mappings |
+| `get-theme` | `{ id }` | Retrieve a theme definition with token overrides |
+| `get-layout` | none | Retrieve layout primitives: breakpoints, grid, containers, spacing scale |
 
 ## Requirements
 
 - Node.js 20.0.0 or later
-- A dspack v0.1 file (see the [dspack spec](https://github.com/aestheticfunction/dspack))
+- A dspack v0.1 or v0.2 file (see the [dspack spec](https://github.com/aestheticfunction/dspack))
 
 ## Configuration
 
