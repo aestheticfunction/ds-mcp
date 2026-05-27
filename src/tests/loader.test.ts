@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { loadDspack } from '../loader.js';
 import { fixture } from './fixture.js';
+import { fixtureV02 } from './fixture-v02.js';
 
 const tempDirs: string[] = [];
 
@@ -65,12 +66,46 @@ describe('loadDspack', () => {
   it('throws on schema-invalid document (wrong dspack type)', () => {
     const invalid = { dspack: 123, name: 'bad' };
     const path = withTempFile(JSON.stringify(invalid));
-    assert.throws(() => loadDspack(path), /schema validation failed/);
+    assert.throws(() => loadDspack(path), /Unsupported dspack version/);
   });
 
   it('throws on wrong dspack version', () => {
     const wrongVersion = { dspack: '2.0', name: 'future' };
     const path = withTempFile(JSON.stringify(wrongVersion));
-    assert.throws(() => loadDspack(path), /Unsupported dspack version|schema validation failed/);
+    assert.throws(() => loadDspack(path), /Unsupported dspack version/);
+  });
+
+  it('loads a valid v0.2 document', () => {
+    const path = withTempFile(JSON.stringify(fixtureV02));
+    const doc = loadDspack(path);
+    assert.equal(doc.dspack, '0.2');
+    assert.equal(doc.name, 'test-design-system-v02');
+    assert.ok(doc.tokens);
+    assert.ok(doc.components);
+    assert.ok(doc.themes);
+    assert.ok(doc.layout);
+  });
+
+  it('loads a minimal v0.2 document (dspack + name only)', () => {
+    const minimal = { dspack: '0.2', name: 'minimal-v02' };
+    const path = withTempFile(JSON.stringify(minimal));
+    const doc = loadDspack(path);
+    assert.equal(doc.dspack, '0.2');
+    assert.equal(doc.name, 'minimal-v02');
+    assert.equal(doc.tokens, undefined);
+    assert.equal(doc.themes, undefined);
+    assert.equal(doc.layout, undefined);
+  });
+
+  it('rejects version 0.3', () => {
+    const futureVersion = { dspack: '0.3', name: 'future' };
+    const path = withTempFile(JSON.stringify(futureVersion));
+    assert.throws(() => loadDspack(path), /Unsupported dspack version '0.3'/);
+  });
+
+  it('error message lists supported versions', () => {
+    const bad = { dspack: '9.9', name: 'bad' };
+    const path = withTempFile(JSON.stringify(bad));
+    assert.throws(() => loadDspack(path), /Supported versions: 0\.1, 0\.2/);
   });
 });

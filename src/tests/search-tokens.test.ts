@@ -2,6 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { searchTokens } from '../tools/search-tokens.js';
 import { fixture } from './fixture.js';
+import { fixtureV02 } from './fixture-v02.js';
 
 describe('search-tokens', () => {
   it('finds tokens by name', () => {
@@ -55,5 +56,31 @@ describe('search-tokens', () => {
     const noTokens = { ...fixture, tokens: undefined };
     const results = searchTokens(noTokens, { query: 'anything' });
     assert.deepEqual(results, []);
+  });
+
+  it('finds tokens by tier (v0.2)', () => {
+    const results = searchTokens(fixtureV02, { query: 'component' });
+    assert.ok(results.some((r) => r.name === 'component-padding'));
+    assert.ok(results.some((r) => r.entry.tier === 'component'));
+  });
+
+  it('finds tokens by status string (v0.2)', () => {
+    const results = searchTokens(fixtureV02, { query: 'deprecated' });
+    assert.ok(results.some((r) => r.name === 'deprecated-red'));
+  });
+
+  it('finds tokens by status object platform value (v0.2)', () => {
+    const results = searchTokens(fixtureV02, { query: 'experimental' });
+    assert.ok(results.some((r) => r.name === 'primary-foreground'));
+  });
+
+  it('finds tokens by aliasOf string (v0.2)', () => {
+    const results = searchTokens(fixtureV02, { query: 'background' });
+    assert.ok(results.some((r) => r.name === 'surface-bg'));
+  });
+
+  it('finds tokens by aliasOf structured reference (v0.2)', () => {
+    const results = searchTokens(fixtureV02, { query: 'sp-2' });
+    assert.ok(results.some((r) => r.name === 'component-padding'));
   });
 });

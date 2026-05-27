@@ -2,6 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { getFrameworkMapping } from '../tools/get-framework-mapping.js';
 import { fixture } from './fixture.js';
+import { fixtureV02 } from './fixture-v02.js';
 
 describe('get-framework-mapping', () => {
   it('returns top-level binding without componentId', () => {
@@ -74,5 +75,15 @@ describe('get-framework-mapping', () => {
     assert.equal(result.found, false);
     assert.ok('error' in result);
     assert.ok(result.error.includes('No framework bindings are defined'));
+  });
+
+  it('includes subComponents in merged result (v0.2)', () => {
+    const result = getFrameworkMapping(fixtureV02, { framework: 'react', componentId: 'alert-dialog' });
+    assert.equal(result.found, true);
+    const binding = (result as { found: true; result: Record<string, unknown> }).result;
+    assert.ok(binding.subComponents);
+    const subs = binding.subComponents as Record<string, { exportName?: string }>;
+    assert.equal(subs['alert-dialog-trigger'].exportName, 'AlertDialogTrigger');
+    assert.equal(subs['alert-dialog-content'].exportName, 'AlertDialogContent');
   });
 });
