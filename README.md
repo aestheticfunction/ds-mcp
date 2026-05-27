@@ -1,5 +1,6 @@
 # ds-mcp
 
+[![SafeSkill 94/100](https://img.shields.io/badge/SafeSkill-94%2F100_Verified%20Safe-brightgreen)](https://safeskill.dev/scan/aestheticfunction-ds-mcp)
 **Stop asking AI agents to guess your design system. Give them a contract they can query.**
 
 ---
