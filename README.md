@@ -39,7 +39,9 @@ props, patterns, and anti-patterns.
    components, patterns, and anti-patterns. (Use the included
    [shadcn/ui v0.2 example](examples/shadcn-ui-v02.dspack.json) to try
    it now, or the [v0.1 example](examples/shadcn-ui.dspack.json) for
-   the minimal format.)
+   the minimal format. Have a React + Tailwind/shadcn codebase? You can
+   generate a starting file from it — see
+   [Don't have a dspack file yet?](#dont-have-a-dspack-file-yet) below.)
 2. **Start ds-mcp** with the dspack file. It loads the file once and
    holds it in memory.
 3. **Connect your MCP client** (Claude Desktop, Claude Code, Cursor,
@@ -62,6 +64,29 @@ ds-mcp --dspack ./shadcn-ui.dspack.json
 
 Configure your MCP client to connect to ds-mcp. See
 [docs/README.md](docs/README.md) for client-specific configuration examples.
+
+## Don't have a dspack file yet?
+
+If your design system is a React + Tailwind/shadcn codebase, the
+experimental [dspack-export](https://github.com/aestheticfunction/dspack-export)
+tool can generate a starting dspack file from it — components, props (with
+cva variant enums and defaults), color/radius tokens from your CSS custom
+properties, dark-theme overrides, and breakpoints:
+
+```bash
+git clone https://github.com/aestheticfunction/dspack-export
+cd dspack-export && npm install && npm run build && npm link
+
+cd /path/to/your/design-system
+dspack-export init        # detects conventions, writes a config
+dspack-export generate --config dspack-export.config.json
+ds-mcp --dspack ./your-system.dspack.json
+```
+
+The generated file is a snapshot of extractable facts. The sections that
+make a dspack file most useful to agents — `patterns`, `antiPatterns`,
+`whenToUse`, `accessibility`, `constraints` — are deliberately left for
+your team to author.
 
 ## What agents can ask
 
