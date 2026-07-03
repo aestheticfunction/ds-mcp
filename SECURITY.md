@@ -35,6 +35,14 @@ where ds-mcp writes to disk, executes a shell command, or communicates
 with an external service under any circumstances, please report it as a
 security concern regardless of whether the behavior appears intentional.
 
+The dspack 0.3 generation tools (`get-generation-context`, `validate-ui`)
+preserve the invariant: they are pure computation over the loaded document
+via `@aestheticfunction/dspack-gen`'s zero-network `core` subpath, and a
+network-boundary test scans the compiled tool path — including that
+dependency's `dist/core` — for network capability. A `generate_ui` tool is
+deliberately absent: generation requires a model call, and the MCP host is
+the generator.
+
 A server that can be caused to write files or execute commands — even in
 edge cases, even in error paths — is a different threat model than a server
 that cannot. ds-mcp is designed to be the latter.
