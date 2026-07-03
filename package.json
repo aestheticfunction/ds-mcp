@@ -1,6 +1,6 @@
 {
   "name": "@aestheticfunction/ds-mcp",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "MCP server for exposing dspack design system corpora to AI coding agents",
   "license": "Apache-2.0",
   "type": "module",
