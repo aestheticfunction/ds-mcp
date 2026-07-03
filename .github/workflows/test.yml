@@ -17,3 +17,5 @@ jobs:
       - run: npm ci
       # pretest runs the tsc build; tests are node --test over dist/tests.
       - run: npm test
+      - name: Copy drift check (dspack-gen#7)
+        run: node scripts/check-sync.mjs
