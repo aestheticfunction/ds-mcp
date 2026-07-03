@@ -2,7 +2,7 @@
  * PR-11 acceptance gates: get-generation-context + validate-ui.
  *
  * Fixture provenance (byte copies, drift tracked in dspack-gen#7):
- * - examples/shadcn-ui-v03.dspack.json    == dspack-gen fixtures/shadcn.v0_3.dspack.json
+ * - examples/shadcn-ui-v04.dspack.json    == dspack-gen fixtures/shadcn.v0_4.dspack.json
  *                                         == dspack examples/shadcn-ui.dspack.json
  * - src/tests/fixtures/F1-*.dsurface.json == dspack-gen fixtures/golden/violating/F1-*
  * - src/tests/fixtures/F1-*.expected.json == dspack-gen's golden lint report for F1
@@ -24,12 +24,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..', '..');
 const fixturesDir = join(root, 'src', 'tests', 'fixtures');
 
-const doc = loadDspack(join(root, 'examples', 'shadcn-ui-v03.dspack.json'));
+const doc = loadDspack(join(root, 'examples', 'shadcn-ui-v04.dspack.json'));
 const f1 = JSON.parse(readFileSync(join(fixturesDir, 'F1-dialog-for-delete.dsurface.json'), 'utf-8')) as Record<string, unknown>;
 const f1Expected = JSON.parse(readFileSync(join(fixturesDir, 'F1-dialog-for-delete.expected.json'), 'utf-8')) as unknown;
 
-test('loader accepts a dspack 0.3 document (governance blocks validated)', () => {
-  assert.equal(doc.dspack, '0.3');
+test('loader accepts a dspack 0.4 document (governance blocks + categories validated)', () => {
+  assert.equal(doc.dspack, '0.4');
 });
 
 test('get-generation-context returns the compiled { system, schema, fewshot } for a registered intent', () => {
@@ -64,6 +64,40 @@ test('validate-ui on the contract worked example is clean (S1/S2/S3 pass)', () =
   const outcome = validateUi(doc, { surface: example.surface });
   assert.ok(outcome.found);
   assert.equal(outcome.result.report.pass, true);
+});
+
+test('validate-ui evaluates v0.4 rule types (required-props) through the pinned dspack-gen', () => {
+  // The 78/78 projection-gap shape: trigger button whose label sits in a
+  // nested badge. Under v0.3 this was S3-clean (and failed downstream at the
+  // emitter gate); the v0.4 contract + pinned v0.4 evaluators make it a
+  // repairable finding HERE. Without the pin bump this call would hard-error
+  // (UnknownRuleTypeError) instead — that is what this test pins.
+  const surface = {
+    dspackSurface: '0.1',
+    system: 'shadcn/ui',
+    intent: 'destructive-action',
+    root: {
+      component: 'alert-dialog',
+      children: [
+        {
+          component: 'alert-dialog-trigger',
+          children: [{ component: 'button', children: [{ component: 'badge', text: 'Delete' }] }],
+        },
+        {
+          component: 'alert-dialog-content',
+          children: [
+            { component: 'alert-dialog-title', text: 'Delete?' },
+            { component: 'alert-dialog-cancel', text: 'Cancel' },
+          ],
+        },
+      ],
+    },
+  };
+  const outcome = validateUi(doc, { surface });
+  assert.ok(outcome.found, 'expected found');
+  assert.equal(outcome.result.report.pass, false);
+  const ruleIds = outcome.result.report.findings.map((f: { ruleId: string }) => f.ruleId);
+  assert.ok(ruleIds.includes('rule.trigger-carries-label'), `expected required-props finding, got: ${ruleIds}`);
 });
 
 test('validate-ui rejects a mismatched declared intent (the surface carries its intent, ADR-6)', () => {

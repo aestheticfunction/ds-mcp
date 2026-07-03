@@ -3,7 +3,7 @@
  * Copy drift check (dspack-gen#7, ecosystem-wide).
  *
  * ds-mcp deliberately carries byte copies of shared artifacts: the shadcn
- * v0.3 contract (source of truth: the dspack spec repo) and the F1 lint
+ * v0.4 contract (source of truth: the dspack spec repo) and the F1 lint
  * goldens (source of truth: dspack-gen — the goldens pin validate-ui's
  * semantics to the pinned dependency's linter, on purpose). The price of
  * copies is silent drift; this script makes drift loud: every entry must
@@ -17,10 +17,10 @@ import { readFileSync, writeFileSync } from "node:fs";
 
 const MANIFEST = [
   {
-    local: "examples/shadcn-ui-v03.dspack.json",
+    local: "examples/shadcn-ui-v04.dspack.json",
     source:
       "https://raw.githubusercontent.com/aestheticfunction/dspack/main/examples/shadcn-ui.dspack.json",
-    note: "the v0.3 example contract — copy of the spec repo's source of truth",
+    note: "the v0.4 example contract — copy of the spec repo's source of truth",
   },
   {
     local: "src/tests/fixtures/F1-dialog-for-delete.dsurface.json",

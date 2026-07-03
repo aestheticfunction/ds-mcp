@@ -146,7 +146,7 @@ export function createServer(doc: DspackDocument): McpServer {
   server.registerTool(
     'get-generation-context',
     {
-      description: 'Compile the loaded dspack 0.3 contract into generation context for a declared intent: the system prompt (vocabulary + governance steering + design intent), the per-contract generation JSON schema (vocabulary and shape only — never governance), and few-shot exemplars from the contract\'s worked examples. The idiomatic loop is agent-driven: get context, generate a dspack surface yourself, then call validate-ui and repair until clean. Steering is not enforcement — validate-ui\'s gate S3 is the guarantee.',
+      description: 'Compile the loaded dspack 0.3/0.4 contract into generation context for a declared intent: the system prompt (vocabulary + governance steering + design intent), the per-contract generation JSON schema (vocabulary and shape only — never governance), and few-shot exemplars from the contract\'s worked examples. The idiomatic loop is agent-driven: get context, generate a dspack surface yourself, then call validate-ui and repair until clean. Steering is not enforcement — validate-ui\'s gate S3 is the guarantee.',
       inputSchema: {
         intent: z.string().describe('A registered intent id from the contract\'s intents[] (e.g., "destructive-action")'),
       },
@@ -160,7 +160,7 @@ export function createServer(doc: DspackDocument): McpServer {
   server.registerTool(
     'validate-ui',
     {
-      description: 'Lint a dspack surface document against the loaded dspack 0.3 contract\'s governance: gate S1 (generic surface schema), S2 (contract vocabulary), S3 (typed governance rules with rationales), each independently reported. Returns the findings object (the same shape dspack-gen embeds in audit reports) plus a human rendering. Error-level findings mean the surface violates the design system; fix every finding and validate again.',
+      description: 'Lint a dspack surface document against the loaded dspack 0.3/0.4 contract\'s governance: gate S1 (generic surface schema), S2 (contract vocabulary), S3 (typed governance rules with rationales), each independently reported. Returns the findings object (the same shape dspack-gen embeds in audit reports) plus a human rendering. Error-level findings mean the surface violates the design system; fix every finding and validate again.',
       inputSchema: {
         surface: z.record(z.string(), z.unknown()).describe('The dspack surface document to validate (dspack.surface.v0_1 shape, as generated from get-generation-context\'s schema)'),
         intent: z.string().optional().describe('Optional intent id; must match the surface\'s own intent field when provided'),
