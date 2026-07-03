@@ -3,7 +3,7 @@
  * Copy drift check (dspack-gen#7, ecosystem-wide).
  *
  * ds-mcp deliberately carries byte copies of shared artifacts: the shadcn
- * v0.3 contract (source of truth: the dspack spec repo) and the F1 lint
+ * v0.4 contract (source of truth: the dspack spec repo) and the F1 lint
  * goldens (source of truth: dspack-gen — the goldens pin validate-ui's
  * semantics to the pinned dependency's linter, on purpose). The price of
  * copies is silent drift; this script makes drift loud: every entry must

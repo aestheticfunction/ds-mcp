@@ -130,7 +130,7 @@ ds-mcp exposes eleven read-only tools:
 
 ### The governed generation loop (dspack 0.3/0.4)
 
-With a dspack 0.3+ contract loaded, any MCP-connected agent becomes a
+With a dspack 0.3/0.4 contract loaded, any MCP-connected agent becomes a
 *governed UI generator* without ds-mcp embedding a model:
 
 1. `get-generation-context { intent }` → system prompt + generation schema +
@@ -153,7 +153,7 @@ the guarantee.
 
 - Node.js 20.0.0 or later
 - A dspack v0.1–v0.4 file (see the [dspack spec](https://github.com/aestheticfunction/dspack));
-  the generation tools require v0.3+ (governance blocks)
+  the generation tools require v0.3 or v0.4 (governance blocks; versions are hard-allowlisted)
 
 ## Configuration
 
