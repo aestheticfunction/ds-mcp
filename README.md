@@ -112,7 +112,7 @@ your team to author.
 
 ## Tools
 
-ds-mcp exposes nine read-only tools:
+ds-mcp exposes eleven read-only tools:
 
 | Tool | Input | Description |
 |------|-------|-------------|
@@ -125,11 +125,35 @@ ds-mcp exposes nine read-only tools:
 | `get-framework-mapping` | `{ framework, componentId? }` | Retrieve framework-specific information including sub-component export mappings |
 | `get-theme` | `{ id }` | Retrieve a theme definition with token overrides |
 | `get-layout` | none | Retrieve layout primitives: breakpoints, grid, containers, spacing scale |
+| `get-generation-context` | `{ intent }` | Compile a dspack 0.3 contract into generation context: system prompt, generation JSON schema, few-shot examples |
+| `validate-ui` | `{ surface, intent? }` | Lint a dspack surface against the contract's governance (gates S1/S2/S3) and return the findings |
+
+### The governed generation loop (dspack 0.3)
+
+With a dspack 0.3 contract loaded, any MCP-connected agent becomes a
+*governed UI generator* without ds-mcp embedding a model:
+
+1. `get-generation-context { intent }` → system prompt + generation schema +
+   few-shot examples, compiled from the contract.
+2. The agent generates a dspack surface itself (it *is* the LLM).
+3. `validate-ui { surface }` → gates S1 (surface schema), S2 (contract
+   vocabulary), S3 (governance rules with rationales), independently
+   reported.
+4. The agent repairs against the findings and validates again.
+
+A `generate_ui` tool is **deliberately absent**: generation requires a model
+call, which would break the no-network invariant — and the MCP host already
+is a model. Both tools are pure computation over the loaded contract, backed
+by `@aestheticfunction/dspack-gen/core` (that package's zero-network,
+emitter-free subpath); a boundary test scans the whole tool path for network
+capability. Prompt steering is not enforcement: `validate-ui`'s gate S3 is
+the guarantee.
 
 ## Requirements
 
 - Node.js 20.0.0 or later
-- A dspack v0.1 or v0.2 file (see the [dspack spec](https://github.com/aestheticfunction/dspack))
+- A dspack v0.1, v0.2, or v0.3 file (see the [dspack spec](https://github.com/aestheticfunction/dspack));
+  the generation tools require v0.3 (governance blocks)
 
 ## Configuration
 
@@ -159,8 +183,10 @@ bash scripts/smoke.sh
 
 ds-mcp is architecturally read-only. It does not write files, execute
 commands, or make network calls. Any behavior that violates these
-constraints is a defect. See [SECURITY.md](SECURITY.md) for reporting
-instructions.
+constraints is a defect. The generation tools preserve the invariants: they
+compile and lint in-process via `@aestheticfunction/dspack-gen/core` (a
+zero-network subpath), verified by a network-boundary test over the compiled
+tool path. See [SECURITY.md](SECURITY.md) for reporting instructions.
 
 ## License
 

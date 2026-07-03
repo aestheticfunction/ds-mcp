@@ -97,15 +97,22 @@ describe('loadDspack', () => {
     assert.equal(doc.layout, undefined);
   });
 
-  it('rejects version 0.3', () => {
-    const futureVersion = { dspack: '0.3', name: 'future' };
+  it('accepts a minimal version 0.3 document (validated against the v0.3 schema)', () => {
+    const minimalV03 = { dspack: '0.3', name: 'minimal-v03' };
+    const path = withTempFile(JSON.stringify(minimalV03));
+    const doc = loadDspack(path);
+    assert.equal(doc.dspack, '0.3');
+  });
+
+  it('rejects version 0.4 (the next unsupported version)', () => {
+    const futureVersion = { dspack: '0.4', name: 'future' };
     const path = withTempFile(JSON.stringify(futureVersion));
-    assert.throws(() => loadDspack(path), /Unsupported dspack version '0.3'/);
+    assert.throws(() => loadDspack(path), /Unsupported dspack version '0.4'/);
   });
 
   it('error message lists supported versions', () => {
     const bad = { dspack: '9.9', name: 'bad' };
     const path = withTempFile(JSON.stringify(bad));
-    assert.throws(() => loadDspack(path), /Supported versions: 0\.1, 0\.2/);
+    assert.throws(() => loadDspack(path), /Supported versions: 0\.1, 0\.2, 0\.3/);
   });
 });
