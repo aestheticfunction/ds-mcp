@@ -29,10 +29,10 @@ export function getGenerationContext(
   input: GetGenerationContextInput,
 ): { found: true; result: GenerationContext } | { found: false; error: string } {
   const contract = doc as unknown as Contract;
-  if (doc.dspack !== '0.3') {
+  if (doc.dspack !== '0.3' && doc.dspack !== '0.4') {
     return {
       found: false,
-      error: `get-generation-context: requires a dspack 0.3 contract with governance blocks (loaded document is dspack ${doc.dspack}).`,
+      error: `get-generation-context: requires a dspack 0.3/0.4 contract with governance blocks (loaded document is dspack ${doc.dspack}).`,
     };
   }
   try {

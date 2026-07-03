@@ -125,12 +125,12 @@ ds-mcp exposes eleven read-only tools:
 | `get-framework-mapping` | `{ framework, componentId? }` | Retrieve framework-specific information including sub-component export mappings |
 | `get-theme` | `{ id }` | Retrieve a theme definition with token overrides |
 | `get-layout` | none | Retrieve layout primitives: breakpoints, grid, containers, spacing scale |
-| `get-generation-context` | `{ intent }` | Compile a dspack 0.3 contract into generation context: system prompt, generation JSON schema, few-shot examples |
+| `get-generation-context` | `{ intent }` | Compile a dspack 0.3/0.4 contract into generation context: system prompt, generation JSON schema, few-shot examples |
 | `validate-ui` | `{ surface, intent? }` | Lint a dspack surface against the contract's governance (gates S1/S2/S3) and return the findings |
 
-### The governed generation loop (dspack 0.3)
+### The governed generation loop (dspack 0.3/0.4)
 
-With a dspack 0.3 contract loaded, any MCP-connected agent becomes a
+With a dspack 0.3+ contract loaded, any MCP-connected agent becomes a
 *governed UI generator* without ds-mcp embedding a model:
 
 1. `get-generation-context { intent }` → system prompt + generation schema +
@@ -152,8 +152,8 @@ the guarantee.
 ## Requirements
 
 - Node.js 20.0.0 or later
-- A dspack v0.1, v0.2, or v0.3 file (see the [dspack spec](https://github.com/aestheticfunction/dspack));
-  the generation tools require v0.3 (governance blocks)
+- A dspack v0.1–v0.4 file (see the [dspack spec](https://github.com/aestheticfunction/dspack));
+  the generation tools require v0.3+ (governance blocks)
 
 ## Configuration
 
