@@ -55,6 +55,7 @@
     "test": "node --test dist/tests/*.test.js"
   },
   "dependencies": {
+    "@aestheticfunction/dspack-gen": "github:aestheticfunction/dspack-gen#978995e9da50d0ed7fa69ef42495383b0830b849",
     "@modelcontextprotocol/sdk": "^1.12.0",
     "ajv": "^8.17.0",
     "minimist": "^1.2.8",
