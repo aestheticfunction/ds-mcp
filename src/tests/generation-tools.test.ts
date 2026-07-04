@@ -66,23 +66,20 @@ test('validate-ui on the contract worked example is clean (S1/S2/S3 pass)', () =
   assert.equal(outcome.result.report.pass, true);
 });
 
-test('validate-ui evaluates v0.4 rule types (required-props) through the pinned dspack-gen', () => {
-  // The 78/78 projection-gap shape: trigger button whose label sits in a
-  // nested badge. Under v0.3 this was S3-clean (and failed downstream at the
-  // emitter gate); the v0.4 contract + pinned v0.4 evaluators make it a
-  // repairable finding HERE. Without the pin bump this call would hard-error
-  // (UnknownRuleTypeError) instead — that is what this test pins.
-  const surface = {
+test('validate-ui evaluates v0.4 rule types (required-props, as amended) through the pinned dspack-gen', () => {
+  // Without the pin bump these calls would hard-error (UnknownRuleTypeError)
+  // — that is what this test pins. Both sides of the amended rule
+  // (textScope: subtree, dspack#13) are asserted through the MCP tool:
+  // nested label text is CLEAN (the audited emitter lift can project it);
+  // no label text anywhere is the irreducible violation, AT the trigger.
+  const surfaceWithTrigger = (triggerChildren: unknown[]) => ({
     dspackSurface: '0.1',
     system: 'shadcn/ui',
     intent: 'destructive-action',
     root: {
       component: 'alert-dialog',
       children: [
-        {
-          component: 'alert-dialog-trigger',
-          children: [{ component: 'button', children: [{ component: 'badge', text: 'Delete' }] }],
-        },
+        { component: 'alert-dialog-trigger', children: triggerChildren },
         {
           component: 'alert-dialog-content',
           children: [
@@ -92,12 +89,26 @@ test('validate-ui evaluates v0.4 rule types (required-props) through the pinned 
         },
       ],
     },
-  };
-  const outcome = validateUi(doc, { surface });
-  assert.ok(outcome.found, 'expected found');
-  assert.equal(outcome.result.report.pass, false);
-  const ruleIds = outcome.result.report.findings.map((f: { ruleId: string }) => f.ruleId);
-  assert.ok(ruleIds.includes('rule.trigger-carries-label'), `expected required-props finding, got: ${ruleIds}`);
+  });
+
+  // The 2026-07-03 signature shape (label nested in a badge): clean under the amendment.
+  const nested = validateUi(doc, {
+    surface: surfaceWithTrigger([{ component: 'button', children: [{ component: 'badge', text: 'Delete' }] }]),
+  });
+  assert.ok(nested.found, 'expected found');
+  assert.equal(nested.result.report.pass, true);
+
+  // No label text anywhere under the trigger: the irreducible governance class.
+  const bare = validateUi(doc, {
+    surface: surfaceWithTrigger([{ component: 'button', children: [{ component: 'badge' }] }]),
+  });
+  assert.ok(bare.found, 'expected found');
+  assert.equal(bare.result.report.pass, false);
+  const finding = bare.result.report.findings.find(
+    (f: { ruleId: string }) => f.ruleId === 'rule.trigger-carries-label',
+  ) as { location: { component: string } } | undefined;
+  assert.ok(finding, 'expected required-props finding');
+  assert.equal(finding.location.component, 'alert-dialog-trigger');
 });
 
 test('validate-ui rejects a mismatched declared intent (the surface carries its intent, ADR-6)', () => {
