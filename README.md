@@ -30,7 +30,7 @@ https://github.com/user-attachments/assets/510a781b-4214-49b3-b997-9cbecdc36961
 
 - A read-only MCP server. It retrieves design system information. It does
   not generate code, write files, or make network calls.
-- The reference implementation of the [dspack specification](https://github.com/aestheticfunction/dspack) (supports v0.1 and v0.2).
+- The reference implementation of the [dspack specification](https://github.com/aestheticfunction/dspack) (supports v0.1–v0.4).
 
 ## What this is not
 
