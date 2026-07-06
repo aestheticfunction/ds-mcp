@@ -12,6 +12,15 @@ import { getTheme } from './tools/get-theme.js';
 import { getLayout } from './tools/get-layout.js';
 import { getGenerationContext } from './tools/get-generation-context.js';
 import { validateUi } from './tools/validate-ui.js';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+// Single source of truth for the server version: package.json at the package root.
+const { version: SERVER_VERSION } = JSON.parse(
+  readFileSync(join(__dirname, '..', 'package.json'), 'utf-8'),
+) as { version: string };
 
 const debug = process.env.DSMCP_DEBUG === 'true' ? console.error.bind(console, '[ds-mcp]') : () => {};
 
@@ -25,7 +34,7 @@ function toolResult(outcome: { found: true; result: unknown } | { found: false; 
 
 export function createServer(doc: DspackDocument): McpServer {
   const server = new McpServer(
-    { name: 'ds-mcp', version: '0.2.0' },
+    { name: 'ds-mcp', version: SERVER_VERSION },
     { capabilities: { tools: {} } },
   );
 
