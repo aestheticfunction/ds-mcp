@@ -13,7 +13,8 @@ dspack is not a runtime format. Nothing in production loads or depends on it.
 ## ds-mcp: the read-only query layer
 
 ds-mcp is an MCP server that reads a dspack file once at startup and serves
-its contents through nine lookup tools. It validates the file against the
+its contents through eleven read-only tools (nine lookup tools plus
+`get-generation-context` and `validate-ui`). It validates the file against the
 version-appropriate JSON Schema (v0.1–v0.4) at load time. It has three
 architectural properties:
 
