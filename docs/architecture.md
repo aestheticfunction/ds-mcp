@@ -4,8 +4,8 @@
 
 A dspack file is a JSON document that describes a design system's tokens,
 components, patterns, anti-patterns, and framework bindings. It follows the
-[dspack specification](https://github.com/aestheticfunction/dspack) (v0.1 or
-v0.2). The file is authored by the design system team, versioned in the
+[dspack specification](https://github.com/aestheticfunction/dspack) (v0.1–v0.4).
+The file is authored by the design system team, versioned in the
 repository alongside the codebase, and read by tooling at development time.
 
 dspack is not a runtime format. Nothing in production loads or depends on it.
@@ -14,7 +14,7 @@ dspack is not a runtime format. Nothing in production loads or depends on it.
 
 ds-mcp is an MCP server that reads a dspack file once at startup and serves
 its contents through nine lookup tools. It validates the file against the
-version-appropriate JSON Schema (v0.1 or v0.2) at load time. It has three
+version-appropriate JSON Schema (v0.1–v0.4) at load time. It has three
 architectural properties:
 
 - **Read-only.** It never writes files, mutates state, or modifies the
