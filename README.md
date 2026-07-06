@@ -43,9 +43,11 @@ https://github.com/user-attachments/assets/510a781b-4214-49b3-b997-9cbecdc36961
 
 1. **Create a dspack file** describing your design system's tokens,
    components, patterns, and anti-patterns. (Use the included
-   [shadcn/ui v0.2 example](examples/shadcn-ui-v02.dspack.json) to try
-   it now, or the [v0.1 example](examples/shadcn-ui.dspack.json) for
-   the minimal format. Have a React + Tailwind/shadcn codebase? You can
+   [shadcn/ui v0.4 example](examples/shadcn-ui-v04.dspack.json) to try
+   it now — it carries the governance blocks the generation tools need.
+   The [v0.2](examples/shadcn-ui-v02.dspack.json) and
+   [v0.1](examples/shadcn-ui.dspack.json) examples remain for the minimal
+   format. Have a React + Tailwind/shadcn codebase? You can
    generate a starting file from it — see
    [Don't have a dspack file yet?](#dont-have-a-dspack-file-yet) below.)
 2. **Start ds-mcp** with the dspack file. It loads the file once and
@@ -60,8 +62,8 @@ https://github.com/user-attachments/assets/510a781b-4214-49b3-b997-9cbecdc36961
 # 1. Install
 npm install -g @aestheticfunction/ds-mcp
 
-# 2. Download the shadcn/ui v0.2 example dspack
-curl -L https://raw.githubusercontent.com/aestheticfunction/ds-mcp/main/examples/shadcn-ui-v02.dspack.json \
+# 2. Download the shadcn/ui v0.4 example dspack
+curl -L https://raw.githubusercontent.com/aestheticfunction/ds-mcp/main/examples/shadcn-ui-v04.dspack.json \
   -o shadcn-ui.dspack.json
 
 # 3. Run with the downloaded file
