@@ -151,6 +151,12 @@ emitter-free subpath); a boundary test scans the whole tool path for network
 capability. Prompt steering is not enforcement: `validate-ui`'s gate S3 is
 the guarantee.
 
+dspack-gen is a **build-time** dependency: its `core` subpath is bundled
+into the published package (`dist/vendor/dspack-gen-core.js`) from a
+commit-pinned devDependency, so installing ds-mcp from npm pulls nothing
+from git. Updating governance semantics means re-pinning that commit,
+rebuilding, and republishing ds-mcp.
+
 ## Requirements
 
 - Node.js 20.0.0 or later

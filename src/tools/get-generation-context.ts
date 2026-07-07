@@ -3,15 +3,16 @@
  * generation context — system prompt + per-contract generation schema +
  * few-shot exemplars — for a caller-declared intent.
  *
- * Backed by @aestheticfunction/dspack-gen/core, the zero-network,
- * emitter-free subpath: this tool is pure computation over the loaded
+ * Backed by dspack-gen's zero-network, emitter-free `core` subpath,
+ * consumed as the build-time bundle ../vendor/dspack-gen-core.js (see
+ * src/vendor/dspack-gen-core.d.ts): this tool is pure computation over the loaded
  * document, preserving ds-mcp's read-only / no-network / no-shell posture
  * (verified by the network-boundary test). The idiomatic flow is
  * agent-driven: get context → agent generates → validate-ui → agent repairs
  * itself. A `generate_ui` tool is deliberately absent — generation requires
  * an LLM call, and the MCP host already is one.
  */
-import { compileContext, type Contract } from '@aestheticfunction/dspack-gen/core';
+import { compileContext, type Contract } from '../vendor/dspack-gen-core.js';
 import type { DspackDocument } from '../types.js';
 
 export interface GetGenerationContextInput {

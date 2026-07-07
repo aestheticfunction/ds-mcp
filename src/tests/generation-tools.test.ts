@@ -128,8 +128,10 @@ test('both tools refuse pre-0.3 documents with a clear error', () => {
 // ---------------------------------------------------------------------------
 // Network boundary: the tool path must import no network capability. ds-mcp's
 // posture (read-only, no network, no shell) is architectural; the dspack-gen
-// dependency is consumed ONLY through its zero-network `core` subpath. This
-// scans the compiled tool modules and the entire dist/core of the dependency.
+// devDependency is consumed ONLY through its zero-network `core` subpath,
+// bundled at build time into dist/vendor/dspack-gen-core.js (what ships).
+// This scans the compiled tool modules, the shipped vendor bundle, and the
+// entire dist/core of the pinned dependency it was bundled from.
 // ---------------------------------------------------------------------------
 
 const NETWORK_TOKENS = ['node:http', 'node:https', 'node:net', 'node:tls', 'node:dgram', 'undici', '@anthropic-ai/sdk', 'fetch('];
@@ -143,9 +145,10 @@ function scanDir(dir: string, files: string[] = []): string[] {
   return files;
 }
 
-test('network boundary: dist/tools/* and the dependency dist/core import no network modules', () => {
+test('network boundary: dist/tools/*, the shipped vendor bundle, and the dependency dist/core import no network modules', () => {
   const targets = [
     ...scanDir(join(root, 'dist', 'tools')),
+    ...scanDir(join(root, 'dist', 'vendor')),
     ...scanDir(join(root, 'node_modules', '@aestheticfunction', 'dspack-gen', 'dist', 'core')),
   ];
   assert.ok(targets.length > 10, `expected a real scan surface, got ${targets.length} files`);
