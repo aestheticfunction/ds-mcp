@@ -11,7 +11,7 @@
  * itself. A `generate_ui` tool is deliberately absent — generation requires
  * an LLM call, and the MCP host already is one.
  */
-import { compileContext, type Contract } from '@aestheticfunction/dspack-gen/core';
+import { compileContext, type Contract } from '../vendor/dspack-gen-core.js';
 import type { DspackDocument } from '../types.js';
 
 export interface GetGenerationContextInput {

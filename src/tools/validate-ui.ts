@@ -17,7 +17,7 @@ import {
   UnknownRuleTypeError,
   type Contract,
   type LintReport,
-} from '@aestheticfunction/dspack-gen/core';
+} from '../vendor/dspack-gen-core.js';
 import type { DspackDocument } from '../types.js';
 
 export interface ValidateUiInput {
