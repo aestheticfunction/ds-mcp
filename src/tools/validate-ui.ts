@@ -6,8 +6,9 @@
  * and renders into repair prompts (one findings object, two serializations;
  * ADR-7).
  *
- * Pure computation via @aestheticfunction/dspack-gen/core; no network, no
- * writes, no shell. Fail-loud discipline is preserved: an unknown rule type
+ * Pure computation via dspack-gen's `core` subpath, consumed as the
+ * build-time bundle ../vendor/dspack-gen-core.js (see
+ * src/vendor/dspack-gen-core.d.ts); no network, no writes, no shell. Fail-loud discipline is preserved: an unknown rule type
  * in the contract is reported as an error result (the linter's exit-4
  * class), never silently skipped.
  */
