@@ -34,6 +34,12 @@ const MANIFEST = [
       "https://raw.githubusercontent.com/aestheticfunction/dspack-gen/main/fixtures/golden/violating/F1-dialog-for-delete.expected.json",
     note: "F1 expected findings — the deliberate validator-semantics coupling to dspack-gen",
   },
+  {
+    local: "src/tests/fixtures/shadcn.destructive-action.context.json",
+    source:
+      "https://raw.githubusercontent.com/aestheticfunction/dspack-gen/main/fixtures/golden/context/shadcn.destructive-action.json",
+    note: "golden generation context — pins get-generation-context's served output to dspack-gen's compiler",
+  },
 ];
 
 const write = process.argv.includes("--write");
