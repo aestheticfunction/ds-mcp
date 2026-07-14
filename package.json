@@ -1,6 +1,6 @@
 {
   "name": "@aestheticfunction/ds-mcp",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "MCP server for exposing dspack design system corpora to AI coding agents",
   "license": "Apache-2.0",
   "type": "module",
@@ -14,6 +14,7 @@
     "examples/",
     "docs/",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE",
     "SECURITY.md"
   ],
@@ -62,7 +63,7 @@
     "zod": "^3.25 || ^4.0"
   },
   "devDependencies": {
-    "@aestheticfunction/dspack-gen": "git+https://github.com/aestheticfunction/dspack-gen.git#f6514330964ed7b62371e17eec4cdadaeeef9d52",
+    "@aestheticfunction/dspack-gen": "git+https://github.com/aestheticfunction/dspack-gen.git#374e1cd91f02701c0d4829ece0a79dd9b381f67b",
     "@types/minimist": "^1.2.5",
     "esbuild": "^0.25.0",
     "@types/node": "^20.0.0",

@@ -154,8 +154,16 @@ the guarantee.
 dspack-gen is a **build-time** dependency: its `core` subpath is bundled
 into the published package (`dist/vendor/dspack-gen-core.js`) from a
 commit-pinned devDependency, so installing ds-mcp from npm pulls nothing
-from git. Updating governance semantics means re-pinning that commit,
-rebuilding, and republishing ds-mcp.
+from git. The default posture is **tag-pinned**: the pin is the commit of
+dspack-gen's latest release tag, so the vendored core corresponds exactly
+to a published dspack-gen version. CI watches this two ways:
+`scripts/check-core-pin.mjs` fails loudly when a newer dspack-gen release
+changes shipped `src/core` files (test files are excluded — the documented
+escape for intentional ahead-of-release pins), and the golden-context test
+byte-compares `get-generation-context` output against dspack-gen's own
+compiler golden. Updating governance semantics means re-pinning to the new
+release tag commit, `npm install`, `npm run build`, verifying the golden
+tests, and republishing ds-mcp.
 
 ## Requirements
 

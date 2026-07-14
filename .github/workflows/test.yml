@@ -19,3 +19,16 @@ jobs:
       - run: npm test
       - name: Copy drift check (dspack-gen#7)
         run: node scripts/check-sync.mjs
+
+  core-pin-drift:
+    # Report-only posture: red means dspack-gen published a release whose
+    # src/core differs from the vendored-core pin — the fix is the re-pin
+    # ritual (README). API failures warn and pass; real drift fails.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Vendored-core pin matches dspack-gen's latest release
+        run: node scripts/check-core-pin.mjs
