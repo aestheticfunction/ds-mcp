@@ -8,7 +8,7 @@
 
 ## Example dspack
 
-- [ ] `examples/shadcn-ui.dspack.json` loads without errors
+- [ ] `examples/shadcn-ui-v01.dspack.json` loads without errors
 - [ ] 13 components
 - [ ] 4 patterns (destructive-action-confirmation, form-field-layout, contextual-actions-menu, settings-form)
 - [ ] 3 anti-patterns

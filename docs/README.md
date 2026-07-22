@@ -116,17 +116,10 @@ See [GitHub's MCP documentation](https://docs.github.com/en/copilot/customizing-
 
 ## Tools
 
-ds-mcp exposes seven read-only tools:
-
-| Tool | Input | Description |
-|------|-------|-------------|
-| `get-token` | `{ category, name }` | Retrieve a single design token by category and name |
-| `search-tokens` | `{ query }` | Search tokens by name, category, description, or type |
-| `get-component` | `{ id }` | Retrieve a full component definition by ID |
-| `list-components` | none | List all components with ID, name, description, and deprecation status |
-| `get-pattern` | `{ id }` | Retrieve a documented usage pattern by ID |
-| `list-antipatterns` | none | List all anti-patterns the design system has identified |
-| `get-framework-mapping` | `{ framework, componentId? }` | Retrieve framework-specific information, optionally merged with a component binding |
+The complete tool table — eleven read-only tools, with inputs and
+descriptions — lives in the [main README](../README.md#tools). It is
+maintained in exactly one place so the two documents cannot disagree;
+this page covers client configuration only.
 
 ## Security Posture
 

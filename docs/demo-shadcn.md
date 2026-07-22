@@ -140,7 +140,7 @@ the current answer.
 
 ## v0.1 compatibility
 
-The v0.1 example ([shadcn-ui.dspack.json](../examples/shadcn-ui.dspack.json))
+The v0.1 example ([shadcn-ui-v01.dspack.json](../examples/shadcn-ui-v01.dspack.json))
 still works with ds-mcp. When loaded, the agent gets the same 13
 components, 4 patterns, 3 anti-patterns, and framework bindings — but
 without lifecycle status, accessibility constraints, composition rules,
