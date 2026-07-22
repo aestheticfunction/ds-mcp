@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 EXAMPLE_DIR="$PROJECT_DIR/examples"
-DSPACK_FILE="$EXAMPLE_DIR/shadcn-ui.dspack.json"
+DSPACK_FILE="$EXAMPLE_DIR/shadcn-ui-v04.dspack.json"
 SERVER="$PROJECT_DIR/dist/index.js"
 
 echo "=== ds-mcp smoke test ==="

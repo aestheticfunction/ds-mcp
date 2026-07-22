@@ -2,6 +2,10 @@
 
 **Stop asking AI agents to guess your design system. Give them a contract they can query.**
 
+> Part of the [dspack ecosystem](https://github.com/aestheticfunction) — the organization profile has the full map of how the repositories fit together.
+>
+> **Kind:** application (MCP server, npm `@aestheticfunction/ds-mcp`, bin `ds-mcp`) · **Audience:** people using AI coding agents against a design system, and MCP client authors · **Neighbors:** implements the [dspack](https://github.com/aestheticfunction/dspack) spec; vendors its generation core from [dspack-gen](https://github.com/aestheticfunction/dspack-gen); bootstrap a contract with [dspack-export](https://github.com/aestheticfunction/dspack-export); see the full chain running in [dspack-studio](https://github.com/aestheticfunction/dspack-studio) ([hosted replay](https://studio.aesthetic-function.com))
+
 ---
 
 ## The problem
@@ -46,8 +50,10 @@ https://github.com/user-attachments/assets/510a781b-4214-49b3-b997-9cbecdc36961
    [shadcn/ui v0.4 example](examples/shadcn-ui-v04.dspack.json) to try
    it now — it carries the governance blocks the generation tools need.
    The [v0.2](examples/shadcn-ui-v02.dspack.json) and
-   [v0.1](examples/shadcn-ui.dspack.json) examples remain for the minimal
-   format. Have a React + Tailwind/shadcn codebase? You can
+   [v0.1](examples/shadcn-ui-v01.dspack.json) examples remain for the minimal
+   format. (The v0.1 example was previously named `shadcn-ui.dspack.json`;
+   it was renamed so that no unversioned filename can be confused with the
+   v0.4 contract of the same name in the dspack repository.) Have a React + Tailwind/shadcn codebase? You can
    generate a starting file from it — see
    [Don't have a dspack file yet?](#dont-have-a-dspack-file-yet) below.)
 2. **Start ds-mcp** with the dspack file. It loads the file once and
@@ -75,11 +81,13 @@ Configure your MCP client to connect to ds-mcp. See
 
 ## Don't have a dspack file yet?
 
-If your design system is a React + Tailwind/shadcn codebase, the
-experimental [dspack-export](https://github.com/aestheticfunction/dspack-export)
+If your design system is a React + Tailwind/shadcn or Vue 3 + Vuetify 3
+codebase, the experimental
+[dspack-export](https://github.com/aestheticfunction/dspack-export)
 tool can generate a starting dspack file from it — components, props (with
-cva variant enums and defaults), color/radius tokens from your CSS custom
-properties, dark-theme overrides, and breakpoints:
+cva variant enums and defaults, and Vue `defineProps`/emits/slots),
+color/radius tokens from your CSS custom properties or an imported DTCG
+design-token file, dark-theme overrides, and breakpoints:
 
 ```bash
 git clone https://github.com/aestheticfunction/dspack-export

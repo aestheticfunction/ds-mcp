@@ -1,5 +1,16 @@
 # Changelog
 
+## Unreleased
+
+- The v0.1 example `examples/shadcn-ui.dspack.json` is renamed to
+  `examples/shadcn-ui-v01.dspack.json` (DX-1, D4): the old unversioned
+  filename collided with the dspack repository's v0.4
+  `examples/shadcn-ui.dspack.json`, so the same path could silently mean
+  two different spec versions depending on the repository. All in-repo
+  references (README, demo walkthrough, pre-merge checklist, smoke
+  script) are updated; `scripts/smoke.sh` now exercises the v0.4 synced
+  example. No published-package behavior changes.
+
 ## 0.3.2
 
 The vendored `@aestheticfunction/dspack-gen/core` bundle moves from the
