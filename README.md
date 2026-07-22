@@ -102,7 +102,9 @@ ds-mcp --dspack ./your-system.dspack.json
 The generated file is a snapshot of extractable facts. The sections that
 make a dspack file most useful to agents — `patterns`, `antiPatterns`,
 `whenToUse`, `accessibility`, `constraints` — are deliberately left for
-your team to author.
+your team to author. The complete journey from snapshot to a governed,
+validated contract (including what to author and in what order) is walked
+in the [adoption guide](https://github.com/aestheticfunction/dspack/blob/main/ADOPTING.md).
 
 ## What agents can ask
 
