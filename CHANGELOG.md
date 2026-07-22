@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.3.2
+
+The vendored `@aestheticfunction/dspack-gen/core` bundle moves from the
+v0.1.1 release tag (`374e1cd`) to the v0.1.2 release tag (`c5bfd6d`),
+picking up 0.1.2's compiler change: contract-declared required props
+(the v0.4 `required-props` rule type) reach the generation-context
+grammar. The published 0.3.1 served v0.4 contracts from a core that
+predates that grammar support, and its report-only `core-pin-drift`
+check had been red since dspack-gen 0.1.2 shipped.
+
+- Re-pin: `@aestheticfunction/dspack-gen` devDependency ->
+  `c5bfd6d` (the v0.1.2 tag commit), vendor bundle rebuilt.
+- No other changes: golden-context byte-compare, sync checks, and the
+  full test suite pass unchanged against the new bundle; the pin-drift
+  check reports the pin exactly at the latest release tag.
+
 ## 0.3.1
 
 The vendored `@aestheticfunction/dspack-gen/core` bundle moves from commit
